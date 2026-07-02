@@ -55,7 +55,7 @@ export function HeroSection({
         </div>
       ) : heroModel === "students" ? (
         <ModelViewer
-          className="hidden sm:block absolute top-24 bottom-0 right-0 w-[55%] md:w-[50%] z-[2]"
+          className="block absolute left-0 right-0 top-[48%] bottom-0 w-full sm:left-auto sm:top-24 sm:w-[55%] md:w-[50%] z-[2]"
           models={[
             { src: "/malestudent.glb", position: [-1.3, 0, 0], scale: 1.7 },
             { src: "/femalestudentmodel.glb", position: [1.3, 0, 0], scale: 1.7 },
@@ -64,7 +64,7 @@ export function HeroSection({
         />
       ) : (
         <ModelViewer
-          className="hidden sm:block absolute top-24 bottom-0 right-0 w-[55%] md:w-[50%] z-[2]"
+          className="block absolute left-0 right-0 top-[48%] bottom-0 w-full sm:left-auto sm:top-24 sm:w-[55%] md:w-[50%] z-[2]"
           models={[{ src: "/teacher-3d-model.glb", position: [0, 0, 0], scale: 2.3 }]}
           cameraPosition={[0, 0, 6]}
         />

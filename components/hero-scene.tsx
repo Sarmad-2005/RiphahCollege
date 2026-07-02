@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useMemo } from "react"
+import { useRef, useMemo, useState, useEffect } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Float, Environment, MeshWobbleMaterial, Text } from "@react-three/drei"
 import * as THREE from "three"
@@ -306,31 +306,54 @@ function CameraRig() {
   return null
 }
 
+// Detects small screens so the 3D layout can be recomposed for mobile.
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)")
+    const update = () => setMobile(mq.matches)
+    update()
+    mq.addEventListener("change", update)
+    return () => mq.removeEventListener("change", update)
+  }, [])
+  return mobile
+}
+
 export function HeroScene() {
+  const isMobile = useIsMobile()
+
   return (
     <div className="absolute inset-0 -z-10">
       <Canvas
-        camera={{ position: [0, 0, 12], fov: 60 }}
+        // Pull the camera back a bit on mobile so more of the scene fits the narrow viewport
+        camera={{ position: [0, 0, isMobile ? 15 : 12], fov: 60 }}
         gl={{ antialias: true, alpha: true }}
+        dpr={[1, isMobile ? 1.5 : 2]}
       >
         <ambientLight intensity={1.2} />
         <directionalLight position={[10, 10, 5]} intensity={2.5} color="#ffffff" />
         <pointLight position={[-10, -10, -5]} intensity={2} color="#f5b041" />
         <pointLight position={[10, -10, 5]} intensity={1.5} color="#1E3A8A" />
-        
-        {/* Procedural 3D Models - Structured Grid on Right Side */}
-        {/* Column 1 */}
-        <FloatingModel position={[5, 4.5, -2]} Children={GraduationCapModel} />
-        <FloatingModel position={[6, 1.5, -2]} Children={NotebookModel} />
-        <FloatingModel position={[5, -1.5, -2]} Children={FlaskModel} />
-        <FloatingModel position={[6, -4.5, -2]} Children={PenModel} />
-        
-        {/* Column 2 */}
-        <FloatingModel position={[11, 4, -3]} Children={CompassModel} />
-        <FloatingModel position={[10, 1, -3]} Children={LightbulbModel} />
-        <FloatingModel position={[11, -2, -3]} Children={MicroscopeModel} />
-        <FloatingModel position={[10, -5, -3]} Children={BellModel} />
-        
+
+        {/* Models are laid out for the right half of a wide screen. On mobile we
+            pull the whole group toward center and scale it down so it stays visible. */}
+        <group
+          position={isMobile ? [-6.5, 0, 0] : [0, 0, 0]}
+          scale={isMobile ? 0.62 : 1}
+        >
+          {/* Column 1 */}
+          <FloatingModel position={[5, 4.5, -2]} Children={GraduationCapModel} />
+          <FloatingModel position={[6, 1.5, -2]} Children={NotebookModel} />
+          <FloatingModel position={[5, -1.5, -2]} Children={FlaskModel} />
+          <FloatingModel position={[6, -4.5, -2]} Children={PenModel} />
+
+          {/* Column 2 */}
+          <FloatingModel position={[11, 4, -3]} Children={CompassModel} />
+          <FloatingModel position={[10, 1, -3]} Children={LightbulbModel} />
+          <FloatingModel position={[11, -2, -3]} Children={MicroscopeModel} />
+          <FloatingModel position={[10, -5, -3]} Children={BellModel} />
+        </group>
+
         <ParticleField />
         <CameraRig />
         <Environment preset="city" />

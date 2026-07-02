@@ -102,7 +102,7 @@ export function CareerCTASection() {
                 transition={{ duration: 0.7, delay: 0.4 }}
               >
                 <ModelViewer
-                  className="w-full max-w-[440px] h-[520px] drop-shadow-[0_20px_40px_rgba(245,176,65,0.25)]"
+                  className="w-full max-w-[440px] h-[360px] sm:h-[440px] lg:h-[520px] drop-shadow-[0_20px_40px_rgba(245,176,65,0.25)]"
                   models={[{ src: "/teacher-3d-model.glb", position: [0, 0, 0], scale: 1.8 }]}
                   cameraPosition={[0, 0, 4.2]}
                 />

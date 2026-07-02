@@ -45,67 +45,11 @@ function DirectorSlider({ directors }: { directors: FacultyMember[] }) {
   const initials = member.name.split(" ").map((n: string) => n[0]).join("").slice(0, 2).toUpperCase()
 
   return (
-    <div className="relative rounded-3xl overflow-hidden bg-[#0a1128] shadow-2xl min-h-110 flex flex-col md:flex-row">
-      {/* Left — full data */}
-      <div className="flex-1 p-10 md:p-14 flex flex-col justify-center relative z-10">
-        <AnimatePresence mode="wait" custom={dir}>
-          <motion.div
-            key={member.id}
-            custom={dir}
-            initial={{ opacity: 0, x: dir * 60 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: dir * -60 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-          >
-            <span className="inline-block px-3 py-1 rounded-full bg-[#f5b041]/20 text-[#f5b041] text-xs font-semibold uppercase tracking-widest mb-5">
-              {member.department}
-            </span>
-            <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-2 leading-tight">{member.name}</h3>
-            <p className="text-[#f5b041] font-semibold text-lg mb-6">{member.title}</p>
-            <p className="text-slate-300 text-base leading-relaxed mb-8 max-w-xl">{member.bio}</p>
-            {member.specializations?.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-8">
-                {member.specializations.map((s: string) => (
-                  <span key={s} className="px-3 py-1 rounded-full bg-white/10 text-slate-200 text-sm border border-white/10">{s}</span>
-                ))}
-              </div>
-            )}
-            <div className="flex gap-8">
-              {member.publications != null && (
-                <div><p className="text-2xl font-bold text-[#f5b041]">{member.publications}</p><p className="text-slate-400 text-xs mt-0.5">Papers</p></div>
-              )}
-              {member.awards != null && (
-                <div><p className="text-2xl font-bold text-[#f5b041]">{member.awards}</p><p className="text-slate-400 text-xs mt-0.5">Awards</p></div>
-              )}
-              {member.students != null && (
-                <div><p className="text-2xl font-bold text-[#f5b041]">{member.students}+</p><p className="text-slate-400 text-xs mt-0.5">Students</p></div>
-              )}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Dots + nav */}
-        {directors.length > 1 && (
-          <div className="flex items-center gap-4 mt-10">
-            <button onClick={() => go(-1)} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center transition-colors">
-              <ChevronLeft className="w-5 h-5 text-white" />
-            </button>
-            <div className="flex gap-1.5">
-              {directors.map((_: FacultyMember, i: number) => (
-                <button key={i} onClick={() => { setDir(i > index ? 1 : -1); setIndex(i) }}
-                  className={`h-2 rounded-full transition-all ${ i === index ? "w-6 bg-[#f5b041]" : "w-2 bg-white/30" }`}
-                />
-              ))}
-            </div>
-            <button onClick={() => go(1)} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center transition-colors">
-              <ChevronRight className="w-5 h-5 text-white" />
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Right — large image */}
-      <div className="hidden md:flex w-96 shrink-0 items-center justify-center relative overflow-hidden bg-linear-to-br from-[#1E3A8A]/40 to-[#0a1128]">
+    <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden bg-[#0a1128] shadow-2xl flex flex-col md:flex-row h-[640px] sm:h-[620px] md:h-[440px] lg:h-[470px]">
+      {/* Image — top on mobile, right on desktop. Fixed size = consistent card.
+          Mobile uses object-contain so every portrait shows its full face
+          regardless of aspect ratio; desktop side-panel uses cover. */}
+      <div className="order-1 md:order-2 relative w-full h-72 sm:h-80 md:h-auto md:w-72 lg:w-96 shrink-0 overflow-hidden bg-linear-to-br from-[#1E3A8A]/40 to-[#0a1128]">
         <AnimatePresence mode="wait" custom={dir}>
           <motion.div
             key={member.id + "-img"}
@@ -114,22 +58,76 @@ function DirectorSlider({ directors }: { directors: FacultyMember[] }) {
             animate={{ opacity: 1, scale: 1, x: 0 }}
             exit={{ opacity: 0, scale: 0.95, x: dir * -40 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="absolute inset-0 flex items-end justify-center"
+            className="absolute inset-0 flex items-center justify-center"
           >
             {member.image ? (
               <img
                 src={member.image}
                 alt={member.name}
-                className="w-full h-full object-cover object-top"
+                /* Mobile: a consistent square that fills the width (like Rooh's photo),
+                   cropped from the top so every face stays visible. Desktop: fill panel. */
+                className="h-full aspect-square object-cover object-top mx-auto md:w-full md:h-full md:aspect-auto"
               />
             ) : (
-              <div className="w-56 h-56 rounded-full bg-linear-to-br from-[#1E3A8A] to-[#7C3AED] flex items-center justify-center text-white text-6xl font-bold mb-16">
+              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-linear-to-br from-[#1E3A8A] to-[#7C3AED] flex items-center justify-center text-white text-4xl sm:text-5xl font-bold">
                 {initials}
               </div>
             )}
-            <div className="absolute inset-0 bg-linear-to-r from-[#0a1128] via-[#0a1128]/10 to-transparent" />
+            {/* Fade into the navy panel — desktop only (left edge). On mobile the
+                contained image should stay fully visible, so no overlay. */}
+            <div className="hidden md:block absolute inset-0 bg-linear-to-r from-[#0a1128] via-[#0a1128]/10 to-transparent" />
           </motion.div>
         </AnimatePresence>
+      </div>
+
+      {/* Content */}
+      <div className="order-2 md:order-1 flex-1 min-w-0 p-6 sm:p-8 md:p-10 lg:p-14 flex flex-col md:justify-center">
+        <div className="relative flex-1 min-h-0">
+          <AnimatePresence mode="wait" custom={dir}>
+            <motion.div
+              key={member.id}
+              custom={dir}
+              initial={{ opacity: 0, x: dir * 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: dir * -60 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              className="absolute inset-0 flex flex-col"
+            >
+              <span className="inline-block self-start px-3 py-1 rounded-full bg-[#f5b041]/20 text-[#f5b041] text-[11px] sm:text-xs font-semibold uppercase tracking-widest mb-3 sm:mb-4">
+                {member.department}
+              </span>
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mb-1.5 leading-tight">{member.name}</h3>
+              <p className="text-[#f5b041] font-semibold text-base sm:text-lg mb-3 sm:mb-4">{member.title}</p>
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl line-clamp-4 md:line-clamp-4 lg:line-clamp-5">{member.bio}</p>
+              {member.specializations?.length > 0 && (
+                <div className="hidden sm:flex flex-wrap gap-2 mt-4">
+                  {member.specializations.slice(0, 4).map((s: string) => (
+                    <span key={s} className="px-3 py-1 rounded-full bg-white/10 text-slate-200 text-xs sm:text-sm border border-white/10">{s}</span>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Dots + nav */}
+        {directors.length > 1 && (
+          <div className="flex items-center gap-3 sm:gap-4 mt-5 sm:mt-6 shrink-0">
+            <button onClick={() => go(-1)} aria-label="Previous" className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center transition-colors">
+              <ChevronLeft className="w-5 h-5 text-white" />
+            </button>
+            <div className="flex gap-1.5">
+              {directors.map((_: FacultyMember, i: number) => (
+                <button key={i} onClick={() => { setDir(i > index ? 1 : -1); setIndex(i) }} aria-label={`Go to slide ${i + 1}`}
+                  className={`h-2 rounded-full transition-all ${ i === index ? "w-6 bg-[#f5b041]" : "w-2 bg-white/30" }`}
+                />
+              ))}
+            </div>
+            <button onClick={() => go(1)} aria-label="Next" className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center transition-colors">
+              <ChevronRight className="w-5 h-5 text-white" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

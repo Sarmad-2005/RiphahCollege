@@ -297,7 +297,7 @@ export function CampusScene() {
   const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null)
   
   return (
-    <div className="relative w-full h-[600px] md:h-[700px] rounded-3xl overflow-hidden">
+    <div className="relative w-full h-[360px] sm:h-[440px] md:h-[560px] lg:h-[700px] rounded-2xl sm:rounded-3xl overflow-hidden">
       <Canvas
         camera={{ position: [8, 6, 8], fov: 50 }}
         shadows
