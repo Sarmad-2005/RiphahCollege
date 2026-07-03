@@ -14,14 +14,16 @@ export async function POST(req: Request) {
 
   const ALLOWED = [
     "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     "image/jpeg", "image/jpg", "image/png", "image/webp",
     "video/mp4", "video/quicktime", "video/webm",
   ]
   if (!ALLOWED.includes(file.type)) {
-    return NextResponse.json({ error: "Only PDF, images (JPEG/PNG/WebP), and videos (MP4/MOV/WebM) are allowed" }, { status: 400 })
+    return NextResponse.json({ error: "Only PDF, Word docs, images (JPEG/PNG/WebP), and videos (MP4/MOV/WebM) are allowed" }, { status: 400 })
   }
-  if (file.size > 100 * 1024 * 1024) {
-    return NextResponse.json({ error: "File must be under 100MB" }, { status: 400 })
+  if (file.size > 50 * 1024 * 1024) {
+    return NextResponse.json({ error: "File must be under 50MB" }, { status: 400 })
   }
 
   const ext = file.name.split(".").pop() ?? "bin"

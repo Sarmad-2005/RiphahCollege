@@ -8,6 +8,7 @@ import {
   MessageSquare, Upload, X, Send, FileText, Image, Video, Download,
   ChevronRight, AlertCircle, Loader2, Paperclip, ChevronLeft, Menu,
 } from "lucide-react"
+import { checkFile, UPLOAD_RULES } from "@/lib/upload-validate"
 
 interface Subtask { id: string; title: string; done: boolean }
 interface TaskDocument { id: string; name: string; url: string }
@@ -140,11 +141,22 @@ export default function TeacherDashboard() {
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file || !selectedTask) return
+    const invalid = checkFile(file, UPLOAD_RULES.submission)
+    if (invalid) {
+      alert(invalid)
+      if (fileInputRef.current) fileInputRef.current.value = ""
+      return
+    }
     setUploadingFile(true)
     try {
       const fd = new FormData()
       fd.append("file", file)
       const uploadRes = await fetch("/api/upload/submission", { method: "POST", body: fd })
+      if (!uploadRes.ok) {
+        const err = await uploadRes.json().catch(() => ({ error: "Upload failed. The file may be too large (max 50MB)." }))
+        alert(err.error || "Upload failed. Please try again.")
+        return
+      }
       const { url, name, fileType } = await uploadRes.json()
       if (!url) return
       const subRes = await fetch(`/api/tasks/${selectedTask.id}/submissions`, {
@@ -621,7 +633,7 @@ export default function TeacherDashboard() {
                         type="file"
                         ref={fileInputRef}
                         onChange={handleFileUpload}
-                        accept="image/*,video/mp4,video/quicktime,video/webm,.pdf"
+                        accept=".pdf,.doc,.docx,image/*,video/mp4,video/quicktime,video/webm"
                         className="hidden"
                       />
                       <button

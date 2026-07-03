@@ -9,6 +9,7 @@ import {
   Award, Settings, ClipboardList, Key, Eye, EyeOff, Send, Square, CheckSquare,
   Paperclip, Image, Video, Link2, Ticket,
 } from "lucide-react"
+import { checkFile, UPLOAD_RULES } from "@/lib/upload-validate"
 import { signOut } from "next-auth/react"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -370,13 +371,20 @@ function FacultyTab() {
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
+    const invalid = checkFile(file, UPLOAD_RULES.facultyImage)
+    if (invalid) { alert(invalid); e.target.value = ""; return }
     setImageUploading(true)
-    const fd = new FormData()
-    fd.append("image", file)
-    const res = await fetch("/api/upload/faculty", { method: "POST", body: fd })
-    const data = await res.json()
-    if (data.url) setForm(f => ({ ...f, image: data.url }))
-    setImageUploading(false)
+    try {
+      const fd = new FormData()
+      fd.append("image", file)
+      const res = await fetch("/api/upload/faculty", { method: "POST", body: fd })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok || !data.url) { alert(data.error || "Upload failed. Please try again."); return }
+      setForm(f => ({ ...f, image: data.url }))
+    } finally {
+      setImageUploading(false)
+      e.target.value = ""
+    }
   }
 
   const save = async () => {
@@ -1369,14 +1377,20 @@ function TasksTab() {
   const handleDocUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
+    const invalid = checkFile(file, UPLOAD_RULES.taskDoc)
+    if (invalid) { alert(invalid); e.target.value = ""; return }
     setDocUploading(true)
-    const fd = new FormData()
-    fd.append("file", file)
-    const res = await fetch("/api/upload/task-doc", { method: "POST", body: fd })
-    const data = await res.json()
-    if (data.url) setDocFiles(prev => [...prev, { name: data.name ?? file.name, url: data.url }])
-    setDocUploading(false)
-    e.target.value = ""
+    try {
+      const fd = new FormData()
+      fd.append("file", file)
+      const res = await fetch("/api/upload/task-doc", { method: "POST", body: fd })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok || !data.url) { alert(data.error || "Upload failed. Please try again."); return }
+      setDocFiles(prev => [...prev, { name: data.name ?? file.name, url: data.url }])
+    } finally {
+      setDocUploading(false)
+      e.target.value = ""
+    }
   }
 
   const createTask = async () => {
@@ -1551,7 +1565,7 @@ function TasksTab() {
               </div>
             </Field>
             <Field label="Reference Documents">
-              <input type="file" onChange={handleDocUpload} disabled={docUploading} className={inputCls} />
+              <input type="file" accept=".pdf,.doc,.docx,image/jpeg,image/png,image/webp" onChange={handleDocUpload} disabled={docUploading} className={inputCls} />
               {docUploading && <p className="text-xs text-slate-400 mt-1 animate-pulse">Uploading…</p>}
               {docFiles.map((d, i) => (
                 <div key={i} className="flex items-center gap-2 text-xs text-slate-600 mt-1">

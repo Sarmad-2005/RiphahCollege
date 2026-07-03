@@ -37,7 +37,11 @@ export const proxy = auth((req) => {
 })
 
 export const config = {
+  // NOTE: api/upload is excluded so the middleware doesn't truncate large file
+  // uploads to its 10MB body limit (which corrupts the multipart body and makes
+  // formData() fail). Those routes enforce their own auth. api/auth is excluded
+  // for NextAuth's own endpoints.
   matcher: [
-    "/((?!api/auth|_next/static|_next/image|favicon\\.ico|.*\\.(?:png|jpg|jpeg|svg|ico|webp)).*)",
+    "/((?!api/auth|api/upload|_next/static|_next/image|favicon\\.ico|.*\\.(?:png|jpg|jpeg|svg|ico|webp)).*)",
   ],
 }
