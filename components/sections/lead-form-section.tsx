@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { User, Phone, GraduationCap, Send, Check, Loader2, Mail, MapPin, FileText } from "lucide-react"
+import { formatPhone, isValidPhone, PHONE_HINT } from "@/lib/format"
 
 interface FormData {
   name: string
@@ -37,8 +38,9 @@ export function LeadFormSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
     setError("")
+    if (!isValidPhone(formData.phone)) { setError(PHONE_HINT); return }
+    setIsSubmitting(true)
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -201,16 +203,18 @@ export function LeadFormSection() {
                         }`} />
                         <input
                           type="tel"
+                          inputMode="numeric"
+                          maxLength={11}
                           value={formData.phone}
-                          onChange={(e) => handleInputChange("phone", e.target.value)}
+                          onChange={(e) => handleInputChange("phone", formatPhone(e.target.value))}
                           onFocus={() => setFocusedField("phone")}
                           onBlur={() => setFocusedField(null)}
                           className={`w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border-2 transition-all outline-none text-[#0a1128] ${
-                            focusedField === "phone" 
-                              ? "border-[#F59E0B] shadow-[0_0_20px_rgba(245,158,11,0.1)]" 
+                            focusedField === "phone"
+                              ? "border-[#F59E0B] shadow-[0_0_20px_rgba(245,158,11,0.1)]"
                               : "border-slate-100"
                           }`}
-                          placeholder="+1 (555) 000-0000"
+                          placeholder="03001234567"
                           required
                         />
                       </div>

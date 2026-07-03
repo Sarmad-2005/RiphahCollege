@@ -6,6 +6,7 @@ import {
   User, Phone, GraduationCap, Send, Check, Loader2, Mail,
   MapPin, ChevronRight, ChevronLeft, Calendar, Users, BookOpen, School,
 } from "lucide-react"
+import { formatPhone, isValidPhone, PHONE_HINT, formatCnic, isValidCnic, CNIC_HINT } from "@/lib/format"
 
 interface Program { id: string; title: string; category: string }
 
@@ -49,8 +50,10 @@ export function AdmissionFormSection({ preselectedProgramId }: { preselectedProg
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
     setError("")
+    if (!isValidCnic(formData.cnic)) { setError(CNIC_HINT); return }
+    if (!isValidPhone(formData.guardianPhone)) { setError(PHONE_HINT); return }
+    setIsSubmitting(true)
     try {
       const res = await fetch("/api/applications", {
         method: "POST",
@@ -123,7 +126,7 @@ export function AdmissionFormSection({ preselectedProgramId }: { preselectedProg
               </div>
               <div className="space-y-2 md:col-span-2">
                 <label className="text-sm font-semibold text-slate-700">CNIC / B-Form Number</label>
-                <input type="text" value={formData.cnic} onChange={e => set("cnic", e.target.value)} className={inputCls("focus:border-[#1E3A8A]")} placeholder="xxxxx-xxxxxxx-x" required />
+                <input type="text" inputMode="numeric" maxLength={15} value={formData.cnic} onChange={e => set("cnic", formatCnic(e.target.value))} className={inputCls("focus:border-[#1E3A8A]")} placeholder="35201-1234567-1" required />
               </div>
             </div>
           </motion.div>
@@ -173,7 +176,7 @@ export function AdmissionFormSection({ preselectedProgramId }: { preselectedProg
                 <label className="text-sm font-semibold text-slate-700">Guardian Contact Number</label>
                 <div className="relative">
                   <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <input type="tel" value={formData.guardianPhone} onChange={e => set("guardianPhone", e.target.value)} className="w-full pl-11 pr-4 py-3 rounded-xl bg-slate-50 border-2 border-slate-100 focus:border-[#F59E0B] focus:bg-white outline-none transition-all text-[#0a1128]" placeholder="+92 XXX XXXXXXX" required />
+                  <input type="tel" inputMode="numeric" maxLength={11} value={formData.guardianPhone} onChange={e => set("guardianPhone", formatPhone(e.target.value))} className="w-full pl-11 pr-4 py-3 rounded-xl bg-slate-50 border-2 border-slate-100 focus:border-[#F59E0B] focus:bg-white outline-none transition-all text-[#0a1128]" placeholder="03001234567" required />
                 </div>
               </div>
               <div className="space-y-2">

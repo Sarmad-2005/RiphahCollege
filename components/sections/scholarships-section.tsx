@@ -6,6 +6,7 @@ import {
   Award, CheckCircle, ChevronRight, Sparkles, Target, Users, GraduationCap,
   X, Upload, Loader2, Send, Phone, Check,
 } from "lucide-react"
+import { formatPhone, isValidPhone, PHONE_HINT } from "@/lib/format"
 
 const scholarships = [
   {
@@ -107,8 +108,9 @@ export function ScholarshipsSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
     setSubmitError("")
+    if (!isValidPhone(formData.phone)) { setSubmitError(PHONE_HINT); return }
+    setIsSubmitting(true)
     try {
       const res = await fetch("/api/scholarship-applications", {
         method: "POST",
@@ -355,10 +357,12 @@ export function ScholarshipsSection() {
                         <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                         <input
                           type="tel"
+                          inputMode="numeric"
+                          maxLength={11}
                           required
                           value={formData.phone}
-                          onChange={e => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                          placeholder="e.g. +92 300 1234567"
+                          onChange={e => setFormData(prev => ({ ...prev, phone: formatPhone(e.target.value) }))}
+                          placeholder="03001234567"
                           className={`${inputCls} pl-11`}
                         />
                       </div>

@@ -6,6 +6,7 @@ import {
   User, Mail, Phone, Briefcase, Upload, Send,
   Check, Loader2, Layers, Award, Users, X,
 } from "lucide-react"
+import { formatPhone, isValidPhone, PHONE_HINT } from "@/lib/format"
 
 const POSITIONS = [
   "Professor", "Associate Professor", "Assistant Professor",
@@ -43,6 +44,7 @@ export function JobApplicationSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
+    if (!isValidPhone(phone)) { setError(PHONE_HINT); return }
     setSubmitting(true)
 
     try {
@@ -230,9 +232,9 @@ export function JobApplicationSection() {
                           <label className="text-sm font-bold text-[#0a1128]">Phone *</label>
                           <div className="relative">
                             <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                            <input type="tel" required value={phone} onChange={e => setPhone(e.target.value)}
+                            <input type="tel" inputMode="numeric" maxLength={11} required value={phone} onChange={e => setPhone(formatPhone(e.target.value))}
                               className="w-full pl-11 pr-4 py-3 rounded-xl bg-slate-50 border-2 border-slate-100 focus:border-blue-500 focus:bg-white outline-none transition-all text-[#0a1128]"
-                              placeholder="+92 300 0000000" />
+                              placeholder="03001234567" />
                           </div>
                         </div>
 

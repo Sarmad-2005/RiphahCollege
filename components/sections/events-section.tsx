@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, Calendar, MapPin, Clock, Users, Loader2, Check, Send } from "lucide-react"
+import { formatPhone, isValidPhone, PHONE_HINT } from "@/lib/format"
 
 interface Event {
   id: string
@@ -91,6 +92,10 @@ function EventModal({ event, onClose }: { event: Event | null; onClose: () => vo
       setError("Please enter your name and phone number.")
       return
     }
+    if (!isValidPhone(form.phone)) {
+      setError(PHONE_HINT)
+      return
+    }
     setSubmitting(true)
     try {
       const res = await fetch("/api/event-registrations", {
@@ -171,7 +176,7 @@ function EventModal({ event, onClose }: { event: Event | null; onClose: () => vo
                   <h3 className="font-bold text-[#0a1128]">Register for this event</h3>
                   {error && <div className="p-3 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm">{error}</div>}
                   <input required value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} className={inputCls} placeholder="Full name *" />
-                  <input required value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} className={inputCls} placeholder="Phone number *" />
+                  <input required type="tel" inputMode="numeric" maxLength={11} value={form.phone} onChange={e => setForm(p => ({ ...p, phone: formatPhone(e.target.value) }))} className={inputCls} placeholder="Phone number * (03001234567)" />
                   <input type="email" value={form.email} onChange={e => setForm(p => ({ ...p, email: e.target.value }))} className={inputCls} placeholder="Email (optional)" />
                   <textarea rows={2} value={form.note} onChange={e => setForm(p => ({ ...p, note: e.target.value }))} className={`${inputCls} resize-none`} placeholder="Anything we should know? (optional)" />
                   <button type="submit" disabled={submitting} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white font-semibold text-sm disabled:opacity-60 transition-opacity" style={{ backgroundColor: color }}>
