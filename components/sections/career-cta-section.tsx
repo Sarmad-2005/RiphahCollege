@@ -13,10 +13,10 @@ const ModelViewer = dynamic(
 
 export function CareerCTASection() {
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-12 md:py-16 relative overflow-hidden">
       <div className="container mx-auto px-6">
-        <motion.div 
-          className="relative rounded-3xl sm:rounded-[3rem] overflow-hidden bg-[#0a1128] p-8 sm:p-12 md:p-20 text-white shadow-2xl"
+        <motion.div
+          className="relative rounded-3xl overflow-hidden bg-[#0a1128] p-6 sm:p-10 lg:p-12 text-white shadow-2xl"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -42,7 +42,7 @@ export function CareerCTASection() {
             />
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center relative z-10">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 items-center relative z-10">
             <div>
               <motion.div
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-[#f5b041] text-sm font-semibold mb-6"
@@ -76,7 +76,7 @@ export function CareerCTASection() {
                 We provide the platform for you to excel and inspire.
               </motion.p>
               
-              <div className="flex flex-wrap gap-8 mb-10">
+              <div className="flex flex-wrap gap-6 sm:gap-8 mb-8">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
                     <GraduationCap className="w-5 h-5 text-[#f5b041]" />
@@ -90,51 +90,48 @@ export function CareerCTASection() {
                   <span className="font-medium text-slate-300">Great Benefits</span>
                 </div>
               </div>
-            </div>
 
-            <div className="flex flex-col items-center lg:items-end gap-6">
-              {/* Teacher 3D model — drag to rotate 360° */}
+              {/* CTA button — directly under the text */}
               <motion.div
-                className="relative"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.4 }}
-              >
-                <ModelViewer
-                  className="w-full max-w-[440px] h-[360px] sm:h-[440px] lg:h-[520px] drop-shadow-[0_20px_40px_rgba(245,176,65,0.25)]"
-                  models={[{ src: "/teacher-3d-model.glb", position: [0, 0, 0], scale: 1.8 }]}
-                  cameraPosition={[0, 0, 4.2]}
-                />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.5 }}
               >
                 <Link href="/faculty#careers">
                   <motion.div
-                    className="group relative px-10 py-6 rounded-2xl bg-gradient-to-r from-[#f5b041] to-[#d68910] text-[#0a1128] font-bold text-xl flex items-center gap-3 shadow-[0_20px_50px_rgba(245,176,65,0.3)] no-underline cursor-pointer overflow-hidden"
-                    whileHover={{ scale: 1.05, y: -5 }}
+                    className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#f5b041] to-[#d68910] text-[#0a1128] font-bold text-base sm:text-lg shadow-[0_15px_40px_rgba(245,176,65,0.3)] no-underline cursor-pointer overflow-hidden"
+                    whileHover={{ scale: 1.05, y: -4 }}
                     whileTap={{ scale: 0.95 }}
                   >
                     <span className="relative z-10">Explore Career Opportunities</span>
-                    <ArrowRight className="w-6 h-6 relative z-10 group-hover:translate-x-2 transition-transform" />
-                    
+                    <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1.5 transition-transform" />
+
                     {/* Button Shine Effect */}
-                    <motion.div 
+                    <motion.div
                       className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full"
-                      animate={{
-                        translateX: ["100%", "-100%"],
-                      }}
+                      animate={{ translateX: ["100%", "-100%"] }}
                       transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                     />
                   </motion.div>
                 </Link>
               </motion.div>
             </div>
+
+            {/* Teacher 3D model — drag to rotate 360° */}
+            <motion.div
+              className="flex justify-center lg:justify-end"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+            >
+              <ModelViewer
+                className="w-full max-w-[400px] h-[340px] sm:h-[420px] lg:h-[460px] drop-shadow-[0_20px_40px_rgba(245,176,65,0.25)]"
+                models={[{ src: "/teacher-3d-model.glb", position: [0, 0, 0], scale: 1.8 }]}
+                cameraPosition={[0, 0, 4.2]}
+              />
+            </motion.div>
           </div>
         </motion.div>
       </div>

@@ -17,6 +17,7 @@ export default async function AdmissionsPage({ searchParams }: Props) {
         highlightedText="Portal"
         subtitle="Your journey to academic excellence starts here. Join Riphah International College and build a future of innovation and leadership."
         heroModel="students"
+        showButtons={false}
       />
       <AdmissionFormSection preselectedProgramId={program} />
       <Footer />

@@ -30,9 +30,9 @@ const footerLinks = {
 }
 
 const socialLinks = [
-  { icon: Facebook, href: "https://facebook.com/ric.edu.pk", label: "Facebook" },
+  { icon: Facebook, href: "https://www.facebook.com/share/1BYUEonKQW/", label: "Facebook" },
   { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "https://instagram.com/ric.edu.pk", label: "Instagram" },
+  { icon: Instagram, href: "https://www.instagram.com/riphahdaskaofficial", label: "Instagram" },
   { icon: Linkedin, href: "https://linkedin.com/company/ric-edu-pk", label: "LinkedIn" },
   { icon: Youtube, href: "#", label: "YouTube" },
 ]
