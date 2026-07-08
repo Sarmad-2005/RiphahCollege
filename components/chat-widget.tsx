@@ -331,7 +331,7 @@ export function ChatWidget() {
               {/* Messages */}
               <div
                 className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50/50"
-                style={{ minHeight: "180px", maxHeight: "260px" }}
+                style={{ minHeight: "120px", maxHeight: "260px" }}
               >
                 {messages.map((msg, i) => (
                   <div key={i} className={`flex gap-2 ${msg.from === "user" ? "flex-row-reverse" : ""}`}>
@@ -372,7 +372,7 @@ export function ChatWidget() {
                     </button>
                   </div>
                 )}
-                <div className="p-3 pt-1 flex flex-col gap-1.5 overflow-y-auto" style={{ maxHeight: "210px" }}>
+                <div className="p-3 pt-1 flex flex-col gap-1.5 overflow-y-auto" style={{ maxHeight: "min(210px, 35dvh)" }}>
                   {currentOptions.map(node => (
                     <button
                       key={node.id}

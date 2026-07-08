@@ -56,7 +56,9 @@ export function Navigation() {
                 <Image src="/riphahdaska-logo.png" alt="Riphah International College Logo" width={36} height={36} className="object-contain" />
               </motion.div>
             </motion.div>
-            <span className="text-base md:text-lg lg:text-[1.5rem] font-bold text-white font-[var(--font-poppins)] hidden sm:block">
+            {/* Full wordmark overflows next to the 6-item nav in the lg range (1024–1280px),
+                so hide it there and bring it back at xl where there's room. */}
+            <span className="text-base md:text-lg xl:text-[1.5rem] font-bold text-white font-[var(--font-poppins)] hidden sm:block lg:hidden xl:block">
               Riphah International College
             </span>
           </Link>
@@ -103,7 +105,7 @@ export function Navigation() {
 
           {/* Mobile Menu Button */}
           <motion.button
-            className="lg:hidden p-2 rounded-xl border border-white/10 bg-white/5"
+            className="lg:hidden p-2.5 rounded-xl border border-white/10 bg-white/5"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             whileTap={{ scale: 0.9 }}
           >
@@ -130,7 +132,7 @@ export function Navigation() {
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.nav
-              className="absolute top-24 left-6 right-6 rounded-2xl p-6"
+              className="absolute top-24 left-6 right-6 rounded-2xl p-6 max-h-[calc(100dvh-7.5rem)] overflow-y-auto"
               style={{
                 background: "rgba(21, 34, 67, 0.85)",
                 backdropFilter: "blur(16px)",

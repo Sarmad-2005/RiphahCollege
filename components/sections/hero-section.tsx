@@ -95,7 +95,7 @@ export function HeroSection({
 
           {/* Heading — gold gradient matching react-frontend */}
           <motion.h1 
-            className="font-[var(--font-poppins)] text-[2.5rem] sm:text-[3.5rem] md:text-[5.5rem] lg:text-[6rem] font-extrabold leading-[1.1] text-white mb-6 max-w-[900px]"
+            className="font-[var(--font-poppins)] text-4xl min-[400px]:text-[2.5rem] sm:text-[3.5rem] md:text-[5.5rem] lg:text-[6rem] font-extrabold leading-[1.1] text-white mb-6 max-w-[900px] break-words"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}

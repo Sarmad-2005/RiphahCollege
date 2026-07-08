@@ -225,7 +225,7 @@ function ProgramsTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h2 className="text-2xl font-bold text-[#0a1128]">Programs</h2>
         <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1E3A8A] text-white text-sm font-semibold hover:bg-[#1E3A8A]/90 transition-colors">
           <Plus className="w-4 h-4" /> Add Program
@@ -303,7 +303,7 @@ function ApplicationsTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h2 className="text-2xl font-bold text-[#0a1128]">Applications</h2>
         <a href="/api/applications/export" target="_blank" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#10B981] text-white text-sm font-semibold hover:bg-[#10B981]/90 transition-colors">
           <Download className="w-4 h-4" /> Export CSV
@@ -452,7 +452,7 @@ function FacultyTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div>
           <h2 className="text-2xl font-bold text-[#0a1128]">Faculty</h2>
           <p className="text-sm text-slate-500 mt-0.5">Click <Key className="w-3.5 h-3.5 inline -mt-0.5" /> on any row to assign or update their teacher portal login.</p>
@@ -656,7 +656,7 @@ function EventsTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h2 className="text-2xl font-bold text-[#0a1128]">Events</h2>
         <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F59E0B] text-white text-sm font-semibold hover:bg-[#F59E0B]/90 transition-colors">
           <Plus className="w-4 h-4" /> Add Event
@@ -802,7 +802,7 @@ function ContactTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h2 className="text-2xl font-bold text-[#0a1128]">Contact Submissions</h2>
         <a href="/api/contact/export" target="_blank" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#10B981] text-white text-sm font-semibold hover:bg-[#10B981]/90 transition-colors">
           <Download className="w-4 h-4" /> Export CSV
@@ -885,7 +885,7 @@ function TeachingTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h2 className="text-2xl font-bold text-[#0a1128]">Teaching Job Applications</h2>
         <a href="/api/teaching-applications/export" target="_blank" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#10B981] text-white text-sm font-semibold hover:bg-[#10B981]/90 transition-colors">
           <Download className="w-4 h-4" /> Export CSV
@@ -986,7 +986,7 @@ function BotTab() {
         Manage the chatbot&apos;s FAQ items. The <strong>Question</strong> is displayed as a button in the chat widget; the <strong>Answer</strong> is shown when the user taps it.
       </p>
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <p className="text-sm text-slate-400">Showing {rules.length} FAQ item{rules.length !== 1 ? "s" : ""}</p>
         <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1E3A8A] text-white text-sm font-semibold hover:bg-[#1E3A8A]/90 transition-colors">
           <Plus className="w-4 h-4" /> Add FAQ Item
@@ -1088,7 +1088,7 @@ function CategoriesTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h2 className="text-2xl font-bold text-[#0a1128]">Program Categories</h2>
         <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1E3A8A] text-white text-sm font-semibold hover:bg-[#1E3A8A]/90 transition-colors">
           <Plus className="w-4 h-4" /> Add Category
@@ -1186,7 +1186,7 @@ function ScholarshipsTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h2 className="text-2xl font-bold text-[#0a1128]">Scholarship Applications</h2>
         <a 
           href="/api/scholarship-applications/export" 
@@ -1443,7 +1443,7 @@ function TasksTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h2 className="text-2xl font-bold text-[#0a1128]">LMS Tasks</h2>
         <button onClick={() => setCreateModal(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#7C3AED] text-white text-sm font-semibold hover:bg-[#7C3AED]/90 transition-colors">
           <Plus className="w-4 h-4" /> Assign Task

@@ -153,7 +153,9 @@ function FacultyCard({ member }: { member: FacultyMember }) {
         </div>
         {/* Back */}
         <div className="absolute inset-0 rounded-2xl overflow-hidden bg-[#0a1128] shadow-md border border-[#1E3A8A]/30 flex flex-col p-7 text-white backface-hidden" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
-          <p className="text-slate-200 text-base leading-relaxed mb-5 grow flex items-center">{member.bio}</p>
+          <div className="grow flex items-center min-h-0 mb-5">
+            <p className="text-slate-200 text-base leading-relaxed line-clamp-6">{member.bio}</p>
+          </div>
           {member.specializations?.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-5">
               {member.specializations.slice(0, 3).map(s => (

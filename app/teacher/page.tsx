@@ -64,7 +64,7 @@ export default function TeacherLoginPage() {
 
       {/* Auth Form */}
       <motion.div
-        className="relative md:absolute md:bottom-4 md:right-4 w-full max-w-md z-20"
+        className="relative md:absolute md:bottom-4 md:right-4 w-full max-w-md z-20 md:max-h-[calc(100dvh-2rem)] md:overflow-y-auto"
         initial={{ opacity: isMobile ? 1 : 0, y: isMobile ? 0 : 20 }}
         animate={formVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.8, ease: [0.175, 0.885, 0.32, 1.275] }}

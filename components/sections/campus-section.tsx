@@ -172,7 +172,8 @@ export function CampusSection() {
         </div>
 
         {/* Scroll cue */}
-        <div className="absolute bottom-40 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2">
+        {/* Hidden on short (landscape-phone) viewports where it collides with the caption */}
+        <div className="absolute bottom-40 left-1/2 -translate-x-1/2 z-20 hidden [@media(min-height:500px)]:flex flex-col items-center gap-2">
           <div className="w-5 h-8 rounded-full border border-white/30 flex items-start justify-center pt-1">
             <div className="w-1 h-2 bg-white/50 rounded-full animate-bounce" />
           </div>

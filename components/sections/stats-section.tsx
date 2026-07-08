@@ -39,7 +39,7 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   }, [isInView, value])
 
   return (
-    <span ref={ref} className="text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-bold gradient-text block truncate px-1 tabular-nums">
+    <span ref={ref} className="text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-bold gradient-text block truncate px-1 tabular-nums">
       {count.toLocaleString()}{suffix}
     </span>
   )
